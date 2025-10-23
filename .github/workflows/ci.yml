@@ -17,22 +17,3 @@ jobs:
          username: ${{vars.USERNAME}}
          password: ${{vars.TOKEN}}
        
-name: Doker hub 
-
-on: 
-  push: 
-    branches: main 
-
-
-jobs:
-  login:
-    runs-on: ubuntu-latest
-    steps:
-    - name: checkcode 
-      uses: actions/checkout@v2
-    - name: login to docker hub 
-      uses: docker/login-action@v3
-      with: 
-        username: ${{vars.USERNAME}}
-        password: ${{vars.TOKEN}}
-       
