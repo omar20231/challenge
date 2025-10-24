@@ -20,18 +20,24 @@ jobs:
          username: ${{vars.USERNAME}}
          password: ${{vars.TOKEN}}
     
-    - name: metadata for docker 
-      id: meta
-      uses: docker/metadata-action@v5
-      with: 
-        images: omar252/continious
+    #- name: metadata for docker 
+      #id: meta
+     # uses: docker/metadata-action@v5
+     # with: 
+      #  images: omar252/continious
+  #  - name: Build and push Docker image
+   #   id: push
+    #  uses: docker/build-push-action@v5
+     # with:
+      #    context: .
+       #   file: ./Dockerfile
+        #  push: true
+         # tags: 
+          #labels: 
     - name: Build and push Docker image
-      id: push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+       push: true
+       tags: omar252/continious:latest
+
          
