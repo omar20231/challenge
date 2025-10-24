@@ -1,13 +1,18 @@
 name: Doker hub 
 
 on: 
-  push: 
-    branches: main 
+  release: 
+    types: [published]  
 
 
 jobs:
-  login:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      id-token: write
     steps:
     - name: checkcode 
       uses: actions/checkout@v2
@@ -16,4 +21,22 @@ jobs:
       with: 
          username: ${{vars.USERNAME}}
          password: ${{vars.TOKEN}}
-       
+    
+    - name: metadata for docker 
+      id: meta
+      uses: docker/metadata-action@v5
+      with: 
+        images: omar252/continious
+    - name: Build and push Docker image
+      id: push
+      uses: docker/build-push-action@v5
+      with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          repository:
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+ 
